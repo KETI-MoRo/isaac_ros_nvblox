@@ -44,6 +44,14 @@ def add_nvblox_carter_navigation(args: lu.ArgumentContainer) -> List[Action]:
             value=['nvblox_layer', 'inflation_layer'],
         ))
 
+    # Setting use_sim_time to false
+    actions.append(
+        lu.set_parameter(
+            namespace='',
+            parameter='use_sim_time',
+            value=False,
+        ))
+
     # Modifying nav2 parameters depending on nvblox mode
     mode = NvbloxMode[args.mode]
     if mode is NvbloxMode.static:
@@ -101,7 +109,8 @@ def add_nvblox_carter_navigation(args: lu.ArgumentContainer) -> List[Action]:
             launch_arguments={
                 'navigation_container_name': args.container_name,
                 'navigation_parameters_path': str(nav_params_path),
-                'enable_mission_client': False
+                'enable_mission_client': False,
+                'use_sim_time': 'false'  # Setting use_sim_time to false
             },
         ))
     # actions.append(lu.static_transform('map', 'odom'))  # keti

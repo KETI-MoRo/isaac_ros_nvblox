@@ -60,7 +60,7 @@ def add_vslam(args: lu.ArgumentContainer) -> List[Action]:
         'enable_rectified_pose': True,
         'enable_image_denoising': False,
         'rectified_images': True,
-        'base_frame': 'camera_link',
+        'base_frame': 'base_link',
         'camera_optical_frames': [
             'camera_infra1_optical_frame',
             'camera_infra2_optical_frame',
