@@ -34,11 +34,11 @@
 namespace nvblox
 {
 
-class RealsenseSplitterNode : public rclcpp::Node
+class KetiRealsenseSplitterNode : public rclcpp::Node
 {
 public:
-  explicit RealsenseSplitterNode(const rclcpp::NodeOptions & options);
-  virtual ~RealsenseSplitterNode() = default;
+  explicit KetiRealsenseSplitterNode(const rclcpp::NodeOptions & options);
+  virtual ~KetiRealsenseSplitterNode() = default;
 
   enum class EmitterMode : int
   {

@@ -57,6 +57,29 @@ rclcpp_components_register_nodes(realsense_splitter_component "nvblox::Realsense
 set(node_plugins "${node_plugins}nvblox::RealsenseSplitterNode;$<TARGET_FILE:realsense_splitter_component>\n")
 
 
+###################### KETI ######################
+add_library(keti_realsense_splitter_component
+  src/keti_realsense_splitter_node.cpp
+)
+target_compile_definitions(keti_realsense_splitter_component
+  PRIVATE "COMPOSITION_BUILDING_DLL")
+ament_target_dependencies(keti_realsense_splitter_component
+  rclcpp
+  rclcpp_components
+  sensor_msgs
+  message_filters
+  realsense2_camera_msgs
+  isaac_ros_common
+)
+target_include_directories(keti_realsense_splitter_component PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
+rclcpp_components_register_nodes(keti_realsense_splitter_component "nvblox::KetiRealsenseSplitterNode")
+set(node_plugins "${node_plugins}nvblox::KetiRealsenseSplitterNode;$<TARGET_FILE:keti_realsense_splitter_component>\n")
+
+###################### KETI ######################
+
 ############
 # BINARIES #
 ############
@@ -64,6 +87,14 @@ add_executable(realsense_splitter_node
   src/realsense_splitter_node_main.cpp
 )
 target_link_libraries(realsense_splitter_node realsense_splitter_component)
+
+###################### KETI ######################
+add_executable(keti_realsense_splitter_node
+  src/keti_realsense_splitter_node_main.cpp
+)
+target_link_libraries(keti_realsense_splitter_node keti_realsense_splitter_component)
+###################### KETI ######################
+
 
 ###########
 # INSTALL #
@@ -77,7 +108,7 @@ install(
 
 # libs
 install(
-  TARGETS realsense_splitter_component
+  TARGETS realsense_splitter_component keti_realsense_splitter_component
   EXPORT ${PROJECT_NAME}Targets
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -85,7 +116,7 @@ install(
 )
 
 # nodes
-install(TARGETS realsense_splitter_node
+install(TARGETS realsense_splitter_node keti_realsense_splitter_node
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

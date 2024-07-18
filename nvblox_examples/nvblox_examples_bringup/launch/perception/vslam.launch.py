@@ -52,15 +52,18 @@ def add_vslam(args: lu.ArgumentContainer) -> List[Action]:
         'verbosity': 5,
         'enable_debug_mode': False,
         'debug_dump_path': '/tmp/cuvslam',
+        # 'map_frame': 'map',
         'map_frame': 'map',
         'odom_frame': 'odom',
         'base_frame': 'base_link',
+        'publish_odom_to_base_tf': True,   # KETI
+        'publish_map_to_odom_tf': False
     }
     realsense_parameters = {
         'enable_rectified_pose': True,
         'enable_image_denoising': False,
         'rectified_images': True,
-        'base_frame': 'camera_link',
+        'base_frame': 'base_link',
         'camera_optical_frames': [
             'camera_infra1_optical_frame',
             'camera_infra2_optical_frame',

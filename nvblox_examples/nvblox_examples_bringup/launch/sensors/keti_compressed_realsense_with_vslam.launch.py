@@ -27,22 +27,24 @@ def generate_launch_description() -> LaunchDescription:
     args.add_arg('run_standalone', 'False')
 
     # Config file
-    config_file = lu.get_path('nvblox_examples_bringup', 'config/sensors/realsense.yaml')
+    config_file = lu.get_path('nvblox_examples_bringup', 'config/sensors/keti_realsense.yaml')
 
     # Splitter node
     realsense_splitter_node = ComposableNode(
         namespace='camera',
         name='realsense_splitter_node',
         package='realsense_splitter',
-        plugin='nvblox::RealsenseSplitterNode',
+        plugin='nvblox::KetiRealsenseSplitterNode',
         parameters=[{
             'input_qos': 'SENSOR_DATA',
             'output_qos': 'SENSOR_DATA'
+            # 'input_qos': 'RELIABLE',
+            # 'output_qos': 'RELIABLE'
         }],
         remappings=[
-            ('input/infra_1', '/camera/infra1/image_rect_raw'),
+            ('input/infra_1', '/camera/infra1/image_rect_raw'), # keti  여기서  ros2 topic echo /camera/realsense_splitter_node/output/depth  문제문제문제
             ('input/infra_1_metadata', '/camera/infra1/metadata'),
-            ('input/infra_2', '/camera/infra2/image_rect_raw'),
+            ('input/infra_2', '/camera/infra2/image_rect_raw'), # keti
             ('input/infra_2_metadata', '/camera/infra2/metadata'),
             ('input/depth', '/camera/depth/image_rect_raw'),    # keti
             ('input/depth_metadata', '/camera/depth/metadata'),
@@ -53,6 +55,14 @@ def generate_launch_description() -> LaunchDescription:
     # Driver node
     realsense_node = ComposableNode(
         namespace='camera',
+        remappings=[
+            # ('/camera/infra1/image_rect_raw', '/camera/infra1/image_rect_raw_dy'),
+            # ('/camera/infra2/image_rect_raw', '/camera/infra2/image_rect_raw_dy'),
+            # ('/camera/depth/image_rect_raw','/camera/depth/image_rect_raw_dy'),
+            ('/camera/color/image_raw','/camera/color/image_raw_dy'),
+            
+            
+            ],
         package='realsense2_camera',
         plugin='realsense2_camera::RealSenseNodeFactory',
         parameters=[config_file])
@@ -64,7 +74,9 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.load_composable_nodes(
             args.container_name,
-            [realsense_splitter_node, realsense_node],
+            [realsense_splitter_node, realsense_node], # keti
+            # [realsense_node], # keti
+
         ))
 
     return LaunchDescription(actions)

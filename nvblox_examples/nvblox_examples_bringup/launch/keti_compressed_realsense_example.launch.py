@@ -70,48 +70,28 @@ def generate_launch_description() -> LaunchDescription:
     #         condition=IfCondition(lu.is_true(args.navigation))))
 
     # ## KETI REALSENSE NAV2 ##
-    
 
-
-
-    # Globally set use_sim_time
-    actions.append(SetParameter('use_sim_time', False))
-
-    # Navigation
-    # NOTE: needs to be called before the component container because it modifies params globally
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/navigation/keti_nvblox_carter_navigation.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'mode': args.mode,
-            },
-            condition=IfCondition(lu.is_true(args.navigation))))
-
-
-    
-    
     # Realsense
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/sensors/realsense.launch.py',
+            # 'launch/sensors/realsense.launch.py',    # keti
+            'launch/sensors/keti_compressed_realsense.launch.py',    # keti
             launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
             condition=UnlessCondition(lu.is_valid(args.rosbag))))
 
-    # Visual SLAM
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/perception/keti_vslam.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'camera': NvbloxCamera.realsense,
-            },
-            # Delay for 1 second to make sure that the static topics from the rosbag are published.
-            delay=1.0,
-            ))
+    # # Visual SLAM
+    # actions.append(
+    #     lu.include(
+    #         'nvblox_examples_bringup',
+    #         'launch/perception/vslam.launch.py',
+    #         launch_arguments={
+    #             'container_name': NVBLOX_CONTAINER_NAME,
+    #             'camera': NvbloxCamera.realsense,
+    #         },
+    #         # Delay for 1 second to make sure that the static topics from the rosbag are published.
+    #         delay=1.0,
+    #         ))
 
     # People segmentation
     actions.append(
@@ -121,8 +101,9 @@ def generate_launch_description() -> LaunchDescription:
             launch_arguments={
                 'container_name': NVBLOX_CONTAINER_NAME,
                 'people_segmentation': args.people_segmentation,
-                'input_topic': '/camera/color/image_raw',
-                'input_camera_info_topic': '/camera/color/camera_info',
+                # 'input_topic': '/camera/color/image_raw',   # keti
+                'input_topic': '/camera/color/image_raw_dy',   # keti
+                'input_camera_info_topic': '/camera/color/camera_info', # keti
             },
             condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
 
@@ -130,7 +111,7 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/perception/nvblox.launch.py',
+            'launch/perception/keti_nvblox.launch.py',  # keti
             launch_arguments={
                 'container_name': NVBLOX_CONTAINER_NAME,
                 'mode': args.mode,
