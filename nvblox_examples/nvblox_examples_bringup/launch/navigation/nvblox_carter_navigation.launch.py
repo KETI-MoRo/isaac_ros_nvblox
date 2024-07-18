@@ -27,7 +27,8 @@ from nvblox_ros_python_utils.nvblox_constants import NVBLOX_CONTAINER_NAME
 def add_nvblox_carter_navigation(args: lu.ArgumentContainer) -> List[Action]:
     # Nav2 base parameter file
     actions = []
-    nav_params_path = lu.get_path('nova_carter_navigation', 'params/nova_carter_navigation.yaml')
+    # nav_params_path = lu.get_path('nova_carter_navigation', 'params/nova_carter_navigation.yaml') # keti
+    nav_params_path = lu.get_path('nvblox_examples_bringup', 'params/nova_carter_navigation.yaml')
     actions.append(SetParametersFromFile(str(nav_params_path)))
 
     # Enabling nav2
@@ -93,17 +94,31 @@ def add_nvblox_carter_navigation(args: lu.ArgumentContainer) -> List[Action]:
             value=costmap_topic_name,
         ))
 
+    # # Running carter navigation
+    # actions.append(
+    #     lu.include(
+    #         'nova_carter_navigation',
+    #         'launch/navigation.launch.py',
+    #         launch_arguments={
+    #             'navigation_container_name': args.container_name,
+    #             'navigation_parameters_path': str(nav_params_path),
+    #             'enable_mission_client': False
+    #         },
+    #     ))
+
     # Running carter navigation
     actions.append(
         lu.include(
-            'nova_carter_navigation',
-            'launch/navigation.launch.py',
+            'nav2_bringup',
+            'launch/navigation_launch.py',
             launch_arguments={
-                'navigation_container_name': args.container_name,
-                'navigation_parameters_path': str(nav_params_path),
-                'enable_mission_client': False
+                # 'navigation_container_name': args.container_name,
+                'params_file': str(nav_params_path),
+                # 'enable_mission_client': False
+                'use_sim_time': True,
             },
-        ))
+        ))    
+
     actions.append(lu.static_transform('map', 'odom'))
 
     return actions
