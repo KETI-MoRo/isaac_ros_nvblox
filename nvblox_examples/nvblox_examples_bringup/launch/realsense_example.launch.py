@@ -56,24 +56,24 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         SetParameter('use_sim_time', True, condition=IfCondition(lu.is_valid(args.rosbag))))
     
-    # Navigation
-    # NOTE: needs to be called before the component container because it modifies params globally
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/navigation/keti_nvblox_carter_navigation.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'mode': args.mode,
-            },
-            condition=IfCondition(lu.is_true(args.navigation))))
+    # # Navigation
+    # # NOTE: needs to be called before the component container because it modifies params globally
+    # actions.append(
+    #     lu.include(
+    #         'nvblox_examples_bringup',
+    #         'launch/navigation/nvblox_carter_navigation.launch.py',
+    #         launch_arguments={
+    #             'container_name': NVBLOX_CONTAINER_NAME,
+    #             'mode': args.mode,
+    #         },
+    #         condition=IfCondition(lu.is_true(args.navigation))))
 
 
     # Realsense
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/sensors/keti_realsense.launch.py',      # keti
+            'launch/sensors/realsense.launch.py',      # keti
             launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
             condition=UnlessCondition(lu.is_valid(args.rosbag))))
 
@@ -81,7 +81,7 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/perception/keti_vslam.launch.py',       # keti
+            'launch/perception/vslam.launch.py',       # keti
             launch_arguments={
                 'container_name': NVBLOX_CONTAINER_NAME,
                 'camera': NvbloxCamera.realsense,

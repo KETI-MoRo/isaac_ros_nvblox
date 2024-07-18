@@ -90,18 +90,18 @@ def generate_launch_description() -> LaunchDescription:
             delay=1.0,
             ))
 
-    # People segmentation
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/perception/segmentation.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'people_segmentation': args.people_segmentation,
-                'input_topic': '/camera/color/image_raw',
-                'input_camera_info_topic': '/camera/color/camera_info',
-            },
-            condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
+    # # People segmentation
+    # actions.append(
+    #     lu.include(
+    #         'nvblox_examples_bringup',
+    #         'launch/perception/segmentation.launch.py',
+    #         launch_arguments={
+    #             'container_name': NVBLOX_CONTAINER_NAME,
+    #             'people_segmentation': args.people_segmentation,
+    #             'input_topic': '/camera/color/image_raw',
+    #             'input_camera_info_topic': '/camera/color/camera_info',
+    #         },
+    #         condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
 
     # Nvblox
     actions.append(
@@ -114,12 +114,12 @@ def generate_launch_description() -> LaunchDescription:
                 'camera': NvbloxCamera.realsense,
             }))
 
-    # Play ros2bag
-    actions.append(
-        lu.play_rosbag(
-            bag_path=args.rosbag,
-            additional_bag_play_args=args.rosbag_args,
-            condition=IfCondition(lu.is_valid(args.rosbag))))
+    # # Play ros2bag
+    # actions.append(
+    #     lu.play_rosbag(
+    #         bag_path=args.rosbag,
+    #         additional_bag_play_args=args.rosbag_args,
+    #         condition=IfCondition(lu.is_valid(args.rosbag))))
 
     # Visualization
     actions.append(

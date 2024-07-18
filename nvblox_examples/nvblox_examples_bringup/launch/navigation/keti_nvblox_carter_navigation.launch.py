@@ -124,9 +124,7 @@ def add_nvblox_carter_navigation(args: lu.ArgumentContainer) -> List[Action]:
                 # 'enable_mission_client': False
                 'use_sim_time': False,
             },
-        ))    
-
-    
+        ))        
     # actions.append(lu.static_transform('map', 'odom'))  # keti
 
     return actions
