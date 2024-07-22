@@ -44,46 +44,64 @@ def generate_launch_description() -> LaunchDescription:
         ],
         description='The  model type of PeopleSemSegNet (only used when mode:=people).',
         cli=True)
+    args.add_arg(
+        'navigation',
+        True,
+        description='Whether to enable nav2 for navigation in Isaac Sim.',
+        cli=True)
+
     actions = args.get_launch_actions()
 
     # Globally set use_sim_time if we're running from bag or sim
     actions.append(
         SetParameter('use_sim_time', True, condition=IfCondition(lu.is_valid(args.rosbag))))
+    
+    # Navigation
+    # NOTE: needs to be called before the component container because it modifies params globally
+    actions.append(
+        lu.include(
+            'nvblox_examples_bringup',
+            'launch/navigation/keti_nvblox_carter_lio_navigation.launch.py',
+            launch_arguments={
+                'container_name': NVBLOX_CONTAINER_NAME,
+                'mode': args.mode,
+            },
+            condition=IfCondition(lu.is_true(args.navigation))))
 
 
     # Realsense
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/sensors/realsense.launch.py',
+            'launch/sensors/keti_realsense.launch.py',      # keti
             launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
             condition=UnlessCondition(lu.is_valid(args.rosbag))))
 
-    # Visual SLAM
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/perception/vslam.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'camera': NvbloxCamera.realsense,
-            },
-            # Delay for 1 second to make sure that the static topics from the rosbag are published.
-            delay=1.0,
-            ))
+    # # Visual SLAM
+    # actions.append(
+    #     lu.include(
+    #         'nvblox_examples_bringup',
+    #         'launch/perception/keti_vslam.launch.py',       # keti
+    #         launch_arguments={
+    #             'container_name': NVBLOX_CONTAINER_NAME,
+    #             'camera': NvbloxCamera.realsense,
+    #         },
+    #         # Delay for 1 second to make sure that the static topics from the rosbag are published.
+    #         delay=1.0,
+    #         ))
 
-    # People segmentation
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/perception/segmentation.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'people_segmentation': args.people_segmentation,
-                'input_topic': '/camera/color/image_raw',
-                'input_camera_info_topic': '/camera/color/camera_info',
-            },
-            condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
+    # # People segmentation
+    # actions.append(
+    #     lu.include(
+    #         'nvblox_examples_bringup',
+    #         'launch/perception/segmentation.launch.py',
+    #         launch_arguments={
+    #             'container_name': NVBLOX_CONTAINER_NAME,
+    #             'people_segmentation': args.people_segmentation,
+    #             'input_topic': '/camera/color/image_raw',
+    #             'input_camera_info_topic': '/camera/color/camera_info',
+    #         },
+    #         condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
 
     # Nvblox
     actions.append(
@@ -96,12 +114,12 @@ def generate_launch_description() -> LaunchDescription:
                 'camera': NvbloxCamera.realsense,
             }))
 
-    # Play ros2bag
-    actions.append(
-        lu.play_rosbag(
-            bag_path=args.rosbag,
-            additional_bag_play_args=args.rosbag_args,
-            condition=IfCondition(lu.is_valid(args.rosbag))))
+    # # Play ros2bag
+    # actions.append(
+    #     lu.play_rosbag(
+    #         bag_path=args.rosbag,
+    #         additional_bag_play_args=args.rosbag_args,
+    #         condition=IfCondition(lu.is_valid(args.rosbag))))
 
     # Visualization
     actions.append(

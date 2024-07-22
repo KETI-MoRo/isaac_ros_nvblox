@@ -52,7 +52,8 @@ def add_vslam(args: lu.ArgumentContainer) -> List[Action]:
         'verbosity': 5,
         'enable_debug_mode': False,
         'debug_dump_path': '/tmp/cuvslam',
-        'publish_map_to_odom_tf': True,
+        'publish_map_to_odom_tf': False, # keti
+        'publish_odom_to_base_tf': False, #keti
         'map_frame': 'map',
         'odom_frame': 'odom',
         'base_frame': 'base_link',
