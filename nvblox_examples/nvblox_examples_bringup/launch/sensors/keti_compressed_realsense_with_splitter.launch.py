@@ -75,6 +75,7 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.load_composable_nodes(
             args.container_name,
+            # [realsense_splitter_node, realsense_node], # keti
             [realsense_splitter_node, realsense_node], # keti
             # [realsense_node], # keti
 

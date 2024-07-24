@@ -5,14 +5,6 @@ from nvblox_ros_python_utils.nvblox_launch_utils import NvbloxMode, NvbloxCamera
 from nvblox_ros_python_utils.nvblox_constants import SEMSEGNET_INPUT_IMAGE_WIDTH, \
     SEMSEGNET_INPUT_IMAGE_HEIGHT, NVBLOX_CONTAINER_NAME
 
-from ament_index_python.packages import get_package_share_directory
-from launch import LaunchDescription
-from launch.conditions import IfCondition, UnlessCondition
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import SetParameter
-import os
-
 
 def generate_launch_description() -> LaunchDescription:
     args = lu.ArgumentContainer()
@@ -46,17 +38,6 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         SetParameter('use_sim_time', True, condition=IfCondition(lu.is_valid(args.rosbag))))
 
-
-    # Include the republish_nodes.launch.py
-    actions.append(
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(
-                get_package_share_directory('nvblox_examples_bringup'), 'launch/republish_nodes.launch.py')),
-            launch_arguments={'use_sim_time': 'true'}.items()
-        )
-    )
-
-
     ## KETI REALSENSE NAV2 ##
     # args.add_arg(
     #     'navigation',
@@ -83,7 +64,7 @@ def generate_launch_description() -> LaunchDescription:
         lu.include(
             'nvblox_examples_bringup',
             # 'launch/sensors/realsense.launch.py',    # keti
-            'launch/sensors/keti_compressed_realsense.launch.py',    # keti
+            'launch/sensors/keti_compressed_realsense_with_splitter.launch.py',    # keti
             launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
             condition=UnlessCondition(lu.is_valid(args.rosbag))))
 
