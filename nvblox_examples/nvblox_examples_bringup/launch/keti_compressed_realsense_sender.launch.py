@@ -47,14 +47,14 @@ def generate_launch_description() -> LaunchDescription:
         SetParameter('use_sim_time', True, condition=IfCondition(lu.is_valid(args.rosbag))))
 
 
-    # Include the republish_nodes.launch.py
-    actions.append(
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(
-                get_package_share_directory('nvblox_examples_bringup'), 'launch/republish_nodes.launch.py')),
-            launch_arguments={'use_sim_time': 'true'}.items()
-        )
-    )
+    # # Include the republish_nodes.launch.py
+    # actions.append(
+    #     IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource(os.path.join(
+    #             get_package_share_directory('nvblox_examples_bringup'), 'launch/republish_nodes.launch.py')),
+    #         launch_arguments={'use_sim_time': 'true'}.items()
+    #     )
+    # )
 
 
     ## KETI REALSENSE NAV2 ##
