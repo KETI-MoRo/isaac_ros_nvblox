@@ -4,6 +4,15 @@ import isaac_ros_launch_utils as lu
 from nvblox_ros_python_utils.nvblox_launch_utils import NvbloxMode, NvbloxCamera, NvbloxPeopleSegmentation
 from nvblox_ros_python_utils.nvblox_constants import SEMSEGNET_INPUT_IMAGE_WIDTH, \
     SEMSEGNET_INPUT_IMAGE_HEIGHT, NVBLOX_CONTAINER_NAME
+    
+    
+# from launch import LaunchDescription
+# from launch.conditions import IfCondition, UnlessCondition
+# from launch.actions import IncludeLaunchDescription
+# from launch.launch_description_sources import PythonLaunchDescriptionSource
+# from launch_ros.actions import SetParameter
+# import os
+# from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description() -> LaunchDescription:
@@ -37,6 +46,14 @@ def generate_launch_description() -> LaunchDescription:
     # Globally set use_sim_time if we're running from bag or sim
     actions.append(
         SetParameter('use_sim_time', True, condition=IfCondition(lu.is_valid(args.rosbag))))
+    # # Include the republish_nodes.launch.py
+    # actions.append(
+    #     IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource(os.path.join(
+    #             get_package_share_directory('nvblox_examples_bringup'), 'launch/republish_nodes.launch.py')),
+    #         launch_arguments={'use_sim_time': 'true'}.items()
+    #     )
+    # )
 
     ## KETI REALSENSE NAV2 ##
     # args.add_arg(
