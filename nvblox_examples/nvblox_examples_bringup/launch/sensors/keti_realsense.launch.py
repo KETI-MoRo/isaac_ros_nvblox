@@ -27,7 +27,7 @@ def generate_launch_description() -> LaunchDescription:
     args.add_arg('run_standalone', 'False')
 
     # Config file
-    config_file = lu.get_path('nvblox_examples_bringup', 'config/sensors/realsense.yaml')
+    config_file = lu.get_path('nvblox_examples_bringup', 'config/sensors/keti_realsense.yaml')
 
     # Splitter node
     realsense_splitter_node = ComposableNode(
@@ -52,8 +52,8 @@ def generate_launch_description() -> LaunchDescription:
 
     # Driver node
     realsense_node = ComposableNode(
-        namespace='camera',   # KETI
-        # namespace='',
+        # namespace='camera',
+        namespace='', # desktop
         package='realsense2_camera',
         plugin='realsense2_camera::RealSenseNodeFactory',
         parameters=[config_file])
