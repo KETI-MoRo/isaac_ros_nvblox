@@ -186,6 +186,8 @@ controller_server:
   ros__parameters:
     use_sim_time: False
     odom_topic: /Odometry
+    # min_x_velocity_threshold: 0.1 # keti
+    # min_y_velocity_threshold: 0.00 # keti
 
     controller_frequency: 20.0
     progress_checker_plugin: "progress_checker"
@@ -194,17 +196,18 @@ controller_server:
     # Progress checker parameters
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.5
-      movement_time_allowance: 10.0
+      required_movement_radius: 0.3
+      movement_time_allowance: 30.0
     stopped_goal_checker:
       plugin: "nav2_controller::StoppedGoalChecker"
       trans_stopped_velocity: 0.1
       rot_stopped_velocity: 0.1
-      xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.25
+      xy_goal_tolerance: 0.1  
+      yaw_goal_tolerance: 0.1 # 0.25
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
       time_steps: 56
+#       min_vel_x: 0.03 # keti
       model_dt: 0.05
       batch_size: 2000
       vx_std: 0.2
@@ -253,7 +256,7 @@ controller_server:
         collision_cost: 10000.0
         collision_margin_distance: 0.1
         near_goal_distance: 0.5
-        inflation_radius: 0.8 # (only in Humble)
+        inflation_radius: 0.3 # 0.8 # (only in Humble)
         cost_scaling_factor: 10.0 # (only in Humble)
       PathAlignCritic:
         enabled: true
@@ -304,7 +307,7 @@ local_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         enabled: True
         cost_scaling_factor: 10.0
-        inflation_radius: 0.8
+        inflation_radius: 0.3 # 0.8
       front_2d_lidar_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -400,7 +403,7 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         enabled: True
         cost_scaling_factor: 10.0
-        inflation_radius: 0.8
+        inflation_radius: 0.3 #0.8
       front_2d_lidar_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
