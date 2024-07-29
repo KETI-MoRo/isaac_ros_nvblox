@@ -86,5 +86,5 @@
       # mesh streamer
       mesh_streamer_exclusion_height_m: 2.0
       mesh_streamer_exclusion_radius_m: 7.0
-      # mesh_bandwidth_limit_mbps: 999999925.0 # in mega bits per second
-      mesh_bandwidth_limit_mbps: 30.0 # in mega bits per second
+      mesh_bandwidth_limit_mbps: 999999925.0 # in mega bits per second
+      # mesh_bandwidth_limit_mbps: 30.0 # in mega bits per second

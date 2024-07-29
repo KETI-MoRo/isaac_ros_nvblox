@@ -53,7 +53,7 @@ def get_realsense_remappings(mode: NvbloxMode) -> List[Tuple[str, str]]:
         remappings.append(('camera_0/color/image', '/segmentation/image_resized'))
         remappings.append(('camera_0/color/camera_info', '/segmentation/camera_info_resized'))
     else:
-        remappings.append(('camera_0/color/image', '/camera/color/image_raw_dy')) # keti
+        remappings.append(('camera_0/color/image', '/camera/color/image_raw')) # keti
         remappings.append(('camera_0/color/camera_info', '/camera/color/camera_info'))
     return remappings
 
