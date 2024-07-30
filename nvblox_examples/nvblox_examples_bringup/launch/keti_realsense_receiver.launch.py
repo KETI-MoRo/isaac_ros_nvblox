@@ -55,9 +55,18 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/sensors/realsense_sensor_receiver.launch.py',
+            'launch/sensors/keti_compressed_realsense.launch.py',
             launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
             condition=UnlessCondition(lu.is_valid(args.rosbag))))
+    # Republisher 
+    actions.append(
+        lu.include(
+            'nvblox_examples_bringup',
+            'launch/republish_nodes.launch.py',
+            launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
+            delay=1.0,
+            condition=UnlessCondition(lu.is_valid(args.rosbag))))
+
 
     # Visual SLAM
     actions.append(
@@ -96,12 +105,12 @@ def generate_launch_description() -> LaunchDescription:
                 'camera': NvbloxCamera.realsense,
             }))
 
-    # # Play ros2bag
-    # actions.append(
-    #     lu.play_rosbag(
-    #         bag_path=args.rosbag,
-    #         additional_bag_play_args=args.rosbag_args,
-    #         condition=IfCondition(lu.is_valid(args.rosbag))))
+    # Play ros2bag
+    actions.append(
+        lu.play_rosbag(
+            bag_path=args.rosbag,
+            additional_bag_play_args=args.rosbag_args,
+            condition=IfCondition(lu.is_valid(args.rosbag))))
 
     # Visualization
     actions.append(
