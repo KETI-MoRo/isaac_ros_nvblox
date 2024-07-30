@@ -51,50 +51,50 @@ def generate_launch_description() -> LaunchDescription:
         SetParameter('use_sim_time', True, condition=IfCondition(lu.is_valid(args.rosbag))))
 
 
-    # # Realsense
-    # actions.append(
-    #     lu.include(
-    #         'nvblox_examples_bringup',
-    #         'launch/sensors/realsense.launch.py',
-    #         launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
-    #         condition=UnlessCondition(lu.is_valid(args.rosbag))))
+    # Realsense
+    actions.append(
+        lu.include(
+            'nvblox_examples_bringup',
+            'launch/sensors/realsense_sensor_receiver.launch.py',
+            launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
+            condition=UnlessCondition(lu.is_valid(args.rosbag))))
 
-    # # Visual SLAM
-    # actions.append(
-    #     lu.include(
-    #         'nvblox_examples_bringup',
-    #         'launch/perception/vslam.launch.py',
-    #         launch_arguments={
-    #             'container_name': NVBLOX_CONTAINER_NAME,
-    #             'camera': NvbloxCamera.realsense,
-    #         },
-    #         # Delay for 1 second to make sure that the static topics from the rosbag are published.
-    #         delay=1.0,
-    #         ))
+    # Visual SLAM
+    actions.append(
+        lu.include(
+            'nvblox_examples_bringup',
+            'launch/perception/vslam.launch.py',
+            launch_arguments={
+                'container_name': NVBLOX_CONTAINER_NAME,
+                'camera': NvbloxCamera.realsense,
+            },
+            # Delay for 1 second to make sure that the static topics from the rosbag are published.
+            delay=1.0,
+            ))
 
-    # # People segmentation
-    # actions.append(
-    #     lu.include(
-    #         'nvblox_examples_bringup',
-    #         'launch/perception/segmentation.launch.py',
-    #         launch_arguments={
-    #             'container_name': NVBLOX_CONTAINER_NAME,
-    #             'people_segmentation': args.people_segmentation,
-    #             'input_topic': '/camera/color/image_raw',
-    #             'input_camera_info_topic': '/camera/color/camera_info',
-    #         },
-    #         condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
+    # People segmentation
+    actions.append(
+        lu.include(
+            'nvblox_examples_bringup',
+            'launch/perception/segmentation.launch.py',
+            launch_arguments={
+                'container_name': NVBLOX_CONTAINER_NAME,
+                'people_segmentation': args.people_segmentation,
+                'input_topic': '/camera/color/image_raw',
+                'input_camera_info_topic': '/camera/color/camera_info',
+            },
+            condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
 
-    # # Nvblox
-    # actions.append(
-    #     lu.include(
-    #         'nvblox_examples_bringup',
-    #         'launch/perception/nvblox.launch.py',
-    #         launch_arguments={
-    #             'container_name': NVBLOX_CONTAINER_NAME,
-    #             'mode': args.mode,
-    #             'camera': NvbloxCamera.realsense,
-    #         }))
+    # Nvblox
+    actions.append(
+        lu.include(
+            'nvblox_examples_bringup',
+            'launch/perception/nvblox.launch.py',
+            launch_arguments={
+                'container_name': NVBLOX_CONTAINER_NAME,
+                'mode': args.mode,
+                'camera': NvbloxCamera.realsense,
+            }))
 
     # # Play ros2bag
     # actions.append(
