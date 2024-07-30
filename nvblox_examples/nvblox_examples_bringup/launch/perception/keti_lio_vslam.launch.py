@@ -36,7 +36,7 @@ def add_vslam(args: lu.ArgumentContainer) -> List[Action]:
     base_parameters = {
         'num_cameras': 2,
         'min_num_images': 2,
-        'enable_localization_n_mapping': False,
+        'enable_localization_n_mapping': True,
         'enable_imu_fusion': False,
         'gyro_noise_density': 0.000244,
         'gyro_random_walk': 0.000019393,
