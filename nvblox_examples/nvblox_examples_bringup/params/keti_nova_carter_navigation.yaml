@@ -112,7 +112,7 @@
 bt_navigator:
   ros__parameters:
     use_sim_time: False
-    odom_topic: /visual_slam/vis/slam_odometry
+    odom_topic: /visual_slam/tracking/odometry #/visual_slam/vis/slam_odometry
     global_frame: odom
     robot_base_frame: base_link
     bt_loop_duration: 10
