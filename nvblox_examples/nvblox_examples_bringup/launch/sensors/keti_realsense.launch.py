@@ -52,8 +52,7 @@ def generate_launch_description() -> LaunchDescription:
 
     # Driver node
     realsense_node = ComposableNode(
-        # namespace='camera', # ASUS
-        namespace='', # desktop
+        namespace='camera', # ASUS,DESKTOP
         package='realsense2_camera',
         plugin='realsense2_camera::RealSenseNodeFactory',
         parameters=[config_file])
@@ -65,7 +64,9 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.load_composable_nodes(
             args.container_name,
-            [realsense_splitter_node, realsense_node],
+            # [realsense_splitter_node, realsense_node],
+            [realsense_node],
+
         ))
 
     return LaunchDescription(actions)

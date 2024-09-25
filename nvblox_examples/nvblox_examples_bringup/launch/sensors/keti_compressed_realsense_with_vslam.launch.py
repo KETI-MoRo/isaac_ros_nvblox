@@ -54,8 +54,8 @@ def generate_launch_description() -> LaunchDescription:
 
     # Driver node
     realsense_node = ComposableNode(
-        # namespace='camera', # ASUS
-        namespace='', # Desktop
+        namespace='camera', # ASUS,DESKTOP
+        # namespace='', # Desktop
         remappings=[
             # ('/camera/infra1/image_rect_raw', '/camera/infra1/image_rect_raw_dy'),
             # ('/camera/infra2/image_rect_raw', '/camera/infra2/image_rect_raw_dy'),
