@@ -55,7 +55,7 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/sensors/keti_realsense_6hz.launch.py',
+            'launch/sensors/keti_realsense_6hz.launch.py',  # keti
             launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
             condition=UnlessCondition(lu.is_valid(args.rosbag))))
 
@@ -85,16 +85,16 @@ def generate_launch_description() -> LaunchDescription:
     #         },
     #         condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
 
-    # Nvblox
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/perception/nvblox.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'mode': "people",
-                'camera': NvbloxCamera.realsense,
-            }))
+    # # Nvblox
+    # actions.append(
+    #     lu.include(
+    #         'nvblox_examples_bringup',
+    #         'launch/perception/nvblox.launch.py',
+    #         launch_arguments={
+    #             'container_name': NVBLOX_CONTAINER_NAME,
+    #             'mode': "people",
+    #             'camera': NvbloxCamera.realsense,
+    #         }))
 
     # # Play ros2bag
     # actions.append(
