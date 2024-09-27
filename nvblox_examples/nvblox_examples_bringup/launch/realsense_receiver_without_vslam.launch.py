@@ -15,6 +15,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+#   this can be used with ASUS, 
+#   1. keti_realsense_nav2_sender_with_vslam.launch.py , 
+#   2. keti_realsense_sender_with_vslam.launch.py
+
 from isaac_ros_launch_utils.all_types import *
 import isaac_ros_launch_utils as lu
 
