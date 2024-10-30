@@ -15,6 +15,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+#   this can be used with Desktop/MEC
+#   1. keti_realsense_receiver_without_vslam_w_nvblox.launch.py
+
 from isaac_ros_launch_utils.all_types import *
 import isaac_ros_launch_utils as lu
 
