@@ -15,6 +15,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+#   this can be used with Desktop/MEC
+#   1. keti_realsense_receiver_without_vslam_w_nvblox.launch.py
+
 from isaac_ros_launch_utils.all_types import *
 import isaac_ros_launch_utils as lu
 
@@ -31,7 +34,7 @@ def generate_launch_description() -> LaunchDescription:
     args.add_arg('log_level', 'info', choices=['debug', 'info', 'warn'], cli=True)
     args.add_arg(
         'mode',
-        default=NvbloxMode.static,
+        default=NvbloxMode.people,
         choices=NvbloxMode.names(),
         description='The nvblox mode.',
         cli=True)
@@ -49,13 +52,17 @@ def generate_launch_description() -> LaunchDescription:
         True,
         description='Whether to enable nav2 for navigation in Isaac Sim.',
         cli=True)
-
+    
     actions = args.get_launch_actions()
 
     # Globally set use_sim_time if we're running from bag or sim
     actions.append(
         SetParameter('use_sim_time', True, condition=IfCondition(lu.is_valid(args.rosbag))))
-    
+
+
+
+############
+
     # Navigation
     # NOTE: needs to be called before the component container because it modifies params globally
     actions.append(
@@ -69,11 +76,12 @@ def generate_launch_description() -> LaunchDescription:
             condition=IfCondition(lu.is_true(args.navigation))))
 
 
+############
     # Realsense
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/sensors/keti_realsense.launch.py',      # keti
+            'launch/sensors/keti_realsense_6hz.launch.py',
             launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
             condition=UnlessCondition(lu.is_valid(args.rosbag))))
 
@@ -81,27 +89,27 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/perception/keti_vslam.launch.py',       # keti
+            'launch/perception/keti_vslam.launch.py',   # keti
             launch_arguments={
                 'container_name': NVBLOX_CONTAINER_NAME,
                 'camera': NvbloxCamera.realsense,
             },
             # Delay for 1 second to make sure that the static topics from the rosbag are published.
-            delay=1.0,
+            delay=2.0,
             ))
 
-    # # People segmentation
-    # actions.append(
-    #     lu.include(
-    #         'nvblox_examples_bringup',
-    #         'launch/perception/segmentation.launch.py',
-    #         launch_arguments={
-    #             'container_name': NVBLOX_CONTAINER_NAME,
-    #             'people_segmentation': args.people_segmentation,
-    #             'input_topic': '/camera/color/image_raw',
-    #             'input_camera_info_topic': '/camera/color/camera_info',
-    #         },
-    #         condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
+    # People segmentation
+    actions.append(
+        lu.include(
+            'nvblox_examples_bringup',
+            'launch/perception/segmentation.launch.py',
+            launch_arguments={
+                'container_name': NVBLOX_CONTAINER_NAME,
+                'people_segmentation': args.people_segmentation,
+                'input_topic': '/camera/color/image_raw',
+                'input_camera_info_topic': '/camera/color/camera_info',
+            },
+            condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
 
     # Nvblox
     actions.append(
@@ -110,7 +118,7 @@ def generate_launch_description() -> LaunchDescription:
             'launch/perception/nvblox.launch.py',
             launch_arguments={
                 'container_name': NVBLOX_CONTAINER_NAME,
-                'mode': args.mode,
+                'mode': "people",
                 'camera': NvbloxCamera.realsense,
             }))
 
