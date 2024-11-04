@@ -73,9 +73,10 @@ def generate_launch_description() -> LaunchDescription:
     actions.append(
         lu.include(
             'nvblox_examples_bringup',
-            'launch/sensors/keti_realsense.launch.py',      # keti
+            'launch/sensors/keti_realsense_6hz.launch.py',
             launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
             condition=UnlessCondition(lu.is_valid(args.rosbag))))
+
 
     # # Visual SLAM
     # actions.append(
