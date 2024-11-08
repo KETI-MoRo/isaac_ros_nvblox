@@ -20,8 +20,8 @@
 #   2. keti_realsense_sender_with_vslam_wo_nvblox.launch.py
 
 VSLAM = 0
-NVBLOX = 0
-SEG = 0
+NVBLOX = 1
+SEG = 1
 VISUALIZATION = 1
 
 from isaac_ros_launch_utils.all_types import *

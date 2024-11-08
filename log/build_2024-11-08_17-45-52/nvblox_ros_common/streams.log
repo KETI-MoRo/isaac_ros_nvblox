@@ -1,0 +1,32 @@
+[0.022s] Invoking command in '/workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_ros_common': CMAKE_PREFIX_PATH=/opt/ros/humble _=/usr/bin/env /usr/bin/cmake --build /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_ros_common -- -j48 -l48
+[0.094s] [100%] Built target nvblox_ros_common_lib
+[0.300s] Invoked command in '/workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_ros_common' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble _=/usr/bin/env /usr/bin/cmake --build /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_ros_common -- -j48 -l48
+[0.477s] Invoking command in '/workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_ros_common': CMAKE_PREFIX_PATH=/opt/ros/humble _=/usr/bin/env /usr/bin/cmake --install /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_ros_common
+[0.484s] -- Install configuration: ""
+[0.485s] -- Execute custom install script
+[0.485s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/include/nvblox_ros_common/check_cuda_errors.hpp
+[0.485s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/environment/library_path.sh
+[0.485s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/environment/library_path.dsv
+[0.486s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/ament_index/resource_index/package_run_dependencies/nvblox_ros_common
+[0.486s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/ament_index/resource_index/parent_prefix_path/nvblox_ros_common
+[0.486s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/environment/ament_prefix_path.sh
+[0.486s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/environment/ament_prefix_path.dsv
+[0.486s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/environment/path.sh
+[0.486s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/environment/path.dsv
+[0.486s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/local_setup.bash
+[0.487s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/local_setup.sh
+[0.487s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/local_setup.zsh
+[0.487s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/local_setup.dsv
+[0.487s] -- Symlinking: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/package.dsv
+[0.495s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/ament_index/resource_index/packages/nvblox_ros_common
+[0.495s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.496s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/cmake/ament_cmake_export_libraries-extras.cmake
+[0.496s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/cmake/ament_cmake_export_targets-extras.cmake
+[0.496s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.496s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/cmake/nvblox_ros_commonConfig.cmake
+[0.496s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/cmake/nvblox_ros_commonConfig-version.cmake
+[0.496s] -- Up-to-date symlink: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/package.xml
+[0.496s] -- Up-to-date: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/lib/libnvblox_ros_common_lib.so
+[0.497s] -- Up-to-date: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/cmake/nvblox_ros_commonTargetsExport.cmake
+[0.497s] -- Up-to-date: /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/install/nvblox_ros_common/share/nvblox_ros_common/cmake/nvblox_ros_commonTargetsExport-noconfig.cmake
+[0.498s] Invoked command in '/workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_ros_common' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble _=/usr/bin/env /usr/bin/cmake --install /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_ros_common
