@@ -27,7 +27,7 @@ from nvblox_ros_python_utils.nvblox_constants import NVBLOX_CONTAINER_NAME
 def add_nvblox_carter_navigation(args: lu.ArgumentContainer) -> List[Action]:
     # Nav2 base parameter file
     actions = []
-    nav_params_path = lu.get_path('nvblox_examples_bringup', 'params/keti_wheel_navigation.yaml')
+    nav_params_path = lu.get_path('nvblox_examples_bringup', 'params/keti_nova_carter_wheel_navigation.yaml')
     actions.append(SetParametersFromFile(str(nav_params_path)))
 
     # Enabling nav2
