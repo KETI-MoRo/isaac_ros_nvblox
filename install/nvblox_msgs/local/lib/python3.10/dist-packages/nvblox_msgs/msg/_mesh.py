@@ -1,1 +1,0 @@
-/workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/nvblox_msgs/rosidl_generator_py/nvblox_msgs/msg/_mesh.py

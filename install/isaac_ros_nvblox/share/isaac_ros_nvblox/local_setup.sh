@@ -1,1 +1,0 @@
-/workspaces/isaac_ros-dev/src/isaac_ros_nvblox/build/isaac_ros_nvblox/ament_cmake_environment_hooks/local_setup.sh
