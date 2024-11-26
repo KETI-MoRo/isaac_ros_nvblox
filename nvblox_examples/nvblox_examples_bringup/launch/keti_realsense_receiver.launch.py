@@ -15,6 +15,17 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+#   this can be used with ASUS, 
+#   1. keti_realsense_nav2_sender_with_vslam.launch.py , 
+#   2. keti_realsense_sender_with_vslam.launch.py
+
+REALSENSE = False
+VSLAM = False
+SEGMENTATION = True
+NVBLOX = True
+VISUALIZATION = True
+
+
 from isaac_ros_launch_utils.all_types import *
 import isaac_ros_launch_utils as lu
 
@@ -31,7 +42,7 @@ def generate_launch_description() -> LaunchDescription:
     args.add_arg('log_level', 'info', choices=['debug', 'info', 'warn'], cli=True)
     args.add_arg(
         'mode',
-        default=NvbloxMode.static,
+        default=NvbloxMode.people,  # keti 수정
         choices=NvbloxMode.names(),
         description='The nvblox mode.',
         cli=True)
@@ -48,79 +59,86 @@ def generate_launch_description() -> LaunchDescription:
 
     # Globally set use_sim_time if we're running from bag or sim
     actions.append(
-        SetParameter('use_sim_time', True, condition=IfCondition(lu.is_valid(args.rosbag))))
+        SetParameter('use_sim_time', False, condition=IfCondition(lu.is_valid(args.rosbag))))
 
 
     # Realsense
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/sensors/keti_compressed_realsense.launch.py',
-            launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
-            condition=UnlessCondition(lu.is_valid(args.rosbag))))
-    # Republisher 
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/republish_nodes.launch.py',
-            launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
-            delay=1.0,
-            condition=UnlessCondition(lu.is_valid(args.rosbag))))
-
+    if REALSENSE:
+        actions.append(
+            lu.include(
+                'nvblox_examples_bringup',
+                'launch/sensors/realsense.launch.py',
+                launch_arguments={'container_name': NVBLOX_CONTAINER_NAME},
+                condition=UnlessCondition(lu.is_valid(args.rosbag))))
+    else:
+        pass
 
     # Visual SLAM
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/perception/vslam.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'camera': NvbloxCamera.realsense,
-            },
-            # Delay for 1 second to make sure that the static topics from the rosbag are published.
-            delay=1.0,
-            ))
+    if VSLAM:
+        actions.append(
+            lu.include(
+                'nvblox_examples_bringup',
+                'launch/perception/vslam.launch.py',
+                launch_arguments={
+                    'container_name': NVBLOX_CONTAINER_NAME,
+                    'camera': NvbloxCamera.realsense,
+                },
+                # Delay for 1 second to make sure that the static topics from the rosbag are published.
+                delay=1.0,
+                ))
+    else:
+        pass
 
     # People segmentation
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/perception/segmentation.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'people_segmentation': args.people_segmentation,
-                'input_topic': '/camera/color/image_raw',
-                'input_camera_info_topic': '/camera/color/camera_info',
-            },
-            condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))))
+    if SEGMENTATION:
+        actions.append(
+            lu.include(
+                'nvblox_examples_bringup',
+                'launch/perception/segmentation.launch.py',
+                launch_arguments={
+                    'container_name': NVBLOX_CONTAINER_NAME,
+                    'people_segmentation': args.people_segmentation,
+                    'input_topic': '/camera/color/image_raw',
+                    'input_camera_info_topic': '/camera/color/camera_info',
+                },
+                condition=IfCondition(lu.has_substring(args.mode, NvbloxMode.people))
+                ))
+    else:
+        pass
 
     # Nvblox
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/perception/nvblox.launch.py',
-            launch_arguments={
-                'container_name': NVBLOX_CONTAINER_NAME,
-                'mode': args.mode,
-                'camera': NvbloxCamera.realsense,
-            }))
+    if NVBLOX:
+        actions.append(
+            lu.include(
+                'nvblox_examples_bringup',
+                'launch/perception/nvblox.launch.py',
+                launch_arguments={
+                    'container_name': NVBLOX_CONTAINER_NAME,
+                    'mode': args.mode,
+                    'camera': NvbloxCamera.realsense,
+                }))   
+    else:
+        pass
 
-    # Play ros2bag
-    actions.append(
-        lu.play_rosbag(
-            bag_path=args.rosbag,
-            additional_bag_play_args=args.rosbag_args,
-            condition=IfCondition(lu.is_valid(args.rosbag))))
+    # # Play ros2bag
+    # actions.append(
+    #     lu.play_rosbag(
+    #         bag_path=args.rosbag,
+    #         additional_bag_play_args=args.rosbag_args,
+    #         condition=IfCondition(lu.is_valid(args.rosbag))))
 
     # Visualization
-    actions.append(
-        lu.include(
-            'nvblox_examples_bringup',
-            'launch/visualization/visualization.launch.py',
-            launch_arguments={
-                'mode': args.mode,
-                'camera': NvbloxCamera.realsense
-            }))
+    if VISUALIZATION:
+        actions.append(
+            lu.include(
+                'nvblox_examples_bringup',
+                'launch/visualization/visualization.launch.py',
+                launch_arguments={
+                    'mode': args.mode,
+                    'camera': NvbloxCamera.realsense
+                }))
+    else:
+        pass
 
     # Container
     actions.append(lu.component_container(NVBLOX_CONTAINER_NAME, log_level=args.log_level))
